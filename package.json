@@ -8,10 +8,10 @@
     "start": "next start",
     "lint": "next lint",
     "prepare": "husky install",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "format": "prettier --write \"**/*.{ts,tsx}\"",
     "format:write": "prettier --write \"**/*.{ts,tsx}\" --cache",
     "format:check": "prettier --check \"**/*.{ts,tsx}\" --cache",
-    "typecheck": "build && tsc --noEmit"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "next": "13.5.4",
