@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils';
+import NavBar from '@/components/nav-bar';
 
 import '@/styles/globals.css';
 
@@ -15,7 +16,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="light">
-      <body className={cn(inter.className, 'bg-grid-slate-200/50')}>{children}</body>
+      <body className={cn(inter.className, 'bg-grid-slate-200/50')}>
+        <NavBar />
+        {children}
+      </body>
     </html>
   );
 }
