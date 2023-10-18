@@ -1,12 +1,12 @@
 import { cn } from '@/lib/utils';
-import NavBar from '@/components/nav-bar';
+import { NavBar } from '@/components/nav-bar';
 
 import '@/styles/globals.css';
 
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
-import Providers from '@/components/providers';
+import { Providers } from '@/components/providers';
 
 const inter = Inter({ subsets: ['latin'] });
 

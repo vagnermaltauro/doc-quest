@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 import { buttonVariants } from '@/components/ui/button';
 import { Icons } from '@/components/icons';
-import MaxWidthWrapper from '@/components/max-width-wrapper';
+import { MaxWidthWrapper } from '@/components/max-width-wrapper';
 
 export default function Home() {
   return (
