@@ -2,6 +2,7 @@ import { cn } from '@/lib/utils';
 import { NavBar } from '@/components/nav-bar';
 
 import '@/styles/globals.css';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
