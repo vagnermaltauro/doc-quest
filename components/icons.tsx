@@ -1,10 +1,12 @@
-import { ArrowRight, Ghost, Loader2, MessageSquare, Plus, Trash } from 'lucide-react';
+import { ArrowRight, Cloud, File, Ghost, Loader2, MessageSquare, Plus, Trash } from 'lucide-react';
 
 export const Icons = {
   arrowRight: ArrowRight,
-  loader2: Loader2,
+  cloud: Cloud,
+  file: File,
   ghost: Ghost,
-  plus: Plus,
+  loader2: Loader2,
   messageSquare: MessageSquare,
+  plus: Plus,
   trash: Trash,
 };
