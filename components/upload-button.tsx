@@ -5,14 +5,42 @@ import Dropzone from 'react-dropzone';
 
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { Progress } from '@/components/ui/progress';
 import { Icons } from '@/components/icons';
 
 function UploadDropzone() {
+  const [isUploading, setIsUploading] = React.useState<boolean>(true);
+  const [uploadProgress, setUploadProgress] = React.useState<number>(0);
+
+  function startSimulateProgress() {
+    setUploadProgress(0);
+
+    const interval = setInterval(() => {
+      setUploadProgress((prevProgress) => {
+        if (prevProgress >= 95) {
+          clearInterval(interval);
+          return prevProgress;
+        }
+
+        return prevProgress + 5;
+      });
+    }, 500);
+
+    return interval;
+  }
+
   return (
     <Dropzone
       multiple={false}
-      onDrop={(acceptedFile) => {
-        console.log(acceptedFile);
+      onDrop={async (acceptedFile) => {
+        setIsUploading(true);
+
+        const progressInterval = startSimulateProgress();
+
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+
+        clearInterval(progressInterval);
+        setUploadProgress(100);
       }}
     >
       {({ getRootProps, getInputProps, acceptedFiles }) => (
@@ -38,6 +66,11 @@ function UploadDropzone() {
                     <Icons.file className="h-4 w-4 text-black-500" />
                   </div>
                   <div className="px-3 py-2 h-full text-sm truncate">{acceptedFiles[0].name}</div>
+                </div>
+              ) : null}
+              {isUploading ? (
+                <div className="w-full mt-4 max-w-xs mx-auto">
+                  <Progress value={uploadProgress} className="h-1 w-ful bg-zinc-500" />
                 </div>
               ) : null}
             </label>
@@ -69,3 +102,5 @@ export function UploadButton() {
     </Dialog>
   );
 }
+
+// TODO: continue upload file - 04:15:44
