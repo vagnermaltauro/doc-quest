@@ -14,7 +14,7 @@ import { trpc } from '@/app/_trpc/client';
 
 function UploadDropzone() {
   const router = useRouter();
-  const [isUploading, setIsUploading] = React.useState<boolean>(true);
+  const [isUploading, setIsUploading] = React.useState<boolean>(false);
   const [uploadProgress, setUploadProgress] = React.useState<number>(0);
   const { toast } = useToast();
 
@@ -106,6 +106,12 @@ function UploadDropzone() {
               {isUploading ? (
                 <div className="w-full mt-4 max-w-xs mx-auto">
                   <Progress value={uploadProgress} className="h-1 w-ful bg-zinc-500" />
+                  {uploadProgress === 100 ? (
+                    <div className="flex gap-1 items-center justify-center text-sm text-zinc-700 text-center pt-2">
+                      <Icons.loader2 className="h-3 w-3 animate-spin" />
+                      Redirecting...
+                    </div>
+                  ) : null}
                 </div>
               ) : null}
               <input {...getInputProps()} type="file" id="dropzone-file" className="hidden" />
