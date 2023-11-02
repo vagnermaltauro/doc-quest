@@ -1,16 +1,31 @@
 'use client';
 
 import * as React from 'react';
+import { useRouter } from 'next/navigation';
 import Dropzone from 'react-dropzone';
 
+import { useUploadThing } from '@/lib/uploadthing';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Progress } from '@/components/ui/progress';
+import { useToast } from '@/components/ui/use-toast';
 import { Icons } from '@/components/icons';
+import { trpc } from '@/app/_trpc/client';
 
 function UploadDropzone() {
+  const router = useRouter();
   const [isUploading, setIsUploading] = React.useState<boolean>(true);
   const [uploadProgress, setUploadProgress] = React.useState<number>(0);
+  const { toast } = useToast();
+
+  const { startUpload } = useUploadThing('pdfUploader');
+  const { mutate: startPolling } = trpc.getFile.useMutation({
+    onSuccess: (file) => {
+      router.push(`/dashboard/${file.id}`);
+    },
+    retry: true,
+    retryDelay: 500,
+  });
 
   function startSimulateProgress() {
     setUploadProgress(0);
@@ -37,10 +52,30 @@ function UploadDropzone() {
 
         const progressInterval = startSimulateProgress();
 
-        await new Promise((resolve) => setTimeout(resolve, 1500));
+        const res = await startUpload(acceptedFile);
+
+        if (!res) {
+          return toast({
+            title: 'Something went wrong',
+            description: 'Please try again later',
+            variant: 'destructive',
+          });
+        }
+
+        const [fileResponse] = res;
+        const key = fileResponse?.key;
+
+        if (!key) {
+          return toast({
+            title: 'Something went wrong',
+            description: 'Please try again later',
+            variant: 'destructive',
+          });
+        }
 
         clearInterval(progressInterval);
         setUploadProgress(100);
+        startPolling({ key });
       }}
     >
       {({ getRootProps, getInputProps, acceptedFiles }) => (
@@ -73,6 +108,7 @@ function UploadDropzone() {
                   <Progress value={uploadProgress} className="h-1 w-ful bg-zinc-500" />
                 </div>
               ) : null}
+              <input {...getInputProps()} type="file" id="dropzone-file" className="hidden" />
             </label>
           </div>
         </div>
@@ -102,5 +138,3 @@ export function UploadButton() {
     </Dialog>
   );
 }
-
-// TODO: continue upload file - 04:15:44
