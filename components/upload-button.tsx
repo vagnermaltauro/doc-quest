@@ -105,7 +105,11 @@ function UploadDropzone() {
               ) : null}
               {isUploading ? (
                 <div className="w-full mt-4 max-w-xs mx-auto">
-                  <Progress value={uploadProgress} className="h-1 w-ful bg-zinc-500" />
+                  <Progress
+                    indicatorColor={uploadProgress === 100 ? 'bg-green-500' : ''}
+                    value={uploadProgress}
+                    className="h-1 w-ful bg-zinc-500"
+                  />
                   {uploadProgress === 100 ? (
                     <div className="flex gap-1 items-center justify-center text-sm text-zinc-700 text-center pt-2">
                       <Icons.loader2 className="h-3 w-3 animate-spin" />
