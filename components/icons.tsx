@@ -1,7 +1,20 @@
-import { ArrowRight, Cloud, File, Ghost, Loader2, MessageSquare, Plus, Trash } from 'lucide-react';
+import {
+  ArrowRight,
+  ChevronDown,
+  ChevronUp,
+  Cloud,
+  File,
+  Ghost,
+  Loader2,
+  MessageSquare,
+  Plus,
+  Trash,
+} from 'lucide-react';
 
 export const Icons = {
   arrowRight: ArrowRight,
+  chevronDown: ChevronDown,
+  chevronUp: ChevronUp,
   cloud: Cloud,
   file: File,
   ghost: Ghost,
