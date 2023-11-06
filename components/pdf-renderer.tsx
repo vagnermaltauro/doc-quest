@@ -9,8 +9,12 @@ import { Icons } from '@/components/icons';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
 
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 import { useResizeDetector } from 'react-resize-detector';
+import { z } from 'zod';
 
+import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
@@ -25,6 +29,29 @@ export function PdfRenderer({ url }: Readonly<PdfRendererProps>) {
   const { width, ref } = useResizeDetector();
   const [numPages, setNumPages] = React.useState<number>();
   const [currPage, setCurrPage] = React.useState<number>(1);
+
+  const CustomPageValidator = z.object({
+    page: z.string().refine((num) => Number(num) > 0 && Number(num) <= numPages!),
+  });
+
+  type TCustomPageValidator = z.infer<typeof CustomPageValidator>;
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm<TCustomPageValidator>({
+    defaultValues: {
+      page: '1',
+    },
+    resolver: zodResolver(CustomPageValidator),
+  });
+
+  const handlePageSubmit = ({ page }: TCustomPageValidator) => {
+    setCurrPage(Number(page));
+    setValue('page', String(page));
+  };
 
   return (
     <div className="w-full bg-white rounded-md shadow flex flex-col items-center">
@@ -41,7 +68,15 @@ export function PdfRenderer({ url }: Readonly<PdfRendererProps>) {
             <Icons.chevronDown className="h-4 w-4" />
           </Button>
           <div className="flex items-center gap-1.5">
-            <Input className="w-12 h-8" />
+            <Input
+              {...register('page')}
+              className={cn('w-12 h-8', errors.page && 'focus-visible:ring-red-500')}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  handleSubmit(handlePageSubmit)();
+                }
+              }}
+            />
             <p className="text-zinc-700 text-sm space-x-1">
               <span>/</span>
               <span>{numPages ?? 'x'}</span>
