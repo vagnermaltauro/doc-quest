@@ -12,10 +12,17 @@ import 'react-pdf/dist/esm/Page/TextLayer.css';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useResizeDetector } from 'react-resize-detector';
+import SimpleBar from 'simplebar-react';
 import { z } from 'zod';
 
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -29,6 +36,7 @@ export function PdfRenderer({ url }: Readonly<PdfRendererProps>) {
   const { width, ref } = useResizeDetector();
   const [numPages, setNumPages] = React.useState<number>();
   const [currPage, setCurrPage] = React.useState<number>(1);
+  const [scale, setScale] = React.useState<number>(1);
 
   const CustomPageValidator = z.object({
     page: z.string().refine((num) => Number(num) > 0 && Number(num) <= numPages!),
@@ -93,29 +101,47 @@ export function PdfRenderer({ url }: Readonly<PdfRendererProps>) {
             <Icons.chevronUp className="h-4 w-4" />
           </Button>
         </div>
+        <div className="space-x-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button aria-label="zoom" variant="ghost">
+                <Icons.search className="h-4 w-4" />
+                {scale * 100}%<Icons.chevronDown className="h-3 w-3 opacity-50" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem onSelect={() => setScale(1)}>100%</DropdownMenuItem>
+              <DropdownMenuItem onSelect={() => setScale(1.5)}>150%</DropdownMenuItem>
+              <DropdownMenuItem onSelect={() => setScale(2)}>200%</DropdownMenuItem>
+              <DropdownMenuItem onSelect={() => setScale(2.5)}>250%</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </div>
       <div className="flex-1 w-full max-h-screen">
-        <div ref={ref}>
-          <Document
-            loading={
-              <div className="flex justify-center">
-                <Icons.loader2 className="my-24 h-6 w-6 animate-spin" />
-              </div>
-            }
-            onLoadError={() => {
-              toast({
-                title: 'Error loading PDF',
-                description: 'Please try again later',
-                variant: 'destructive',
-              });
-            }}
-            onLoadSuccess={({ numPages }) => setNumPages(numPages)}
-            file={url}
-            className="max-h-full"
-          >
-            <Page width={width ?? 1} pageNumber={currPage} />
-          </Document>
-        </div>
+        <SimpleBar autoHide={false} className="max-h-[calc(100vh-10rem)]">
+          <div ref={ref}>
+            <Document
+              loading={
+                <div className="flex justify-center">
+                  <Icons.loader2 className="my-24 h-6 w-6 animate-spin" />
+                </div>
+              }
+              onLoadError={() => {
+                toast({
+                  title: 'Error loading PDF',
+                  description: 'Please try again later',
+                  variant: 'destructive',
+                });
+              }}
+              onLoadSuccess={({ numPages }) => setNumPages(numPages)}
+              file={url}
+              className="max-h-full"
+            >
+              <Page width={width ?? 1} pageNumber={currPage} scale={scale} />
+            </Document>
+          </div>
+        </SimpleBar>
       </div>
     </div>
   );

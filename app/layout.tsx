@@ -3,6 +3,7 @@ import { NavBar } from '@/components/nav-bar';
 
 import '@/styles/globals.css';
 import 'react-loading-skeleton/dist/skeleton.css';
+import 'simplebar-react/dist/simplebar.min.css';
 
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
