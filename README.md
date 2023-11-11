@@ -1,3 +1,3 @@
 ```bash
-yarn dev
+pnpm dev
 ```
