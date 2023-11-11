@@ -24,6 +24,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
+import { PdfFullscreen } from '@/components/pdf-fullscreen';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -70,6 +71,7 @@ export function PdfRenderer({ url }: Readonly<PdfRendererProps>) {
             disabled={currPage <= 1}
             onClick={() => {
               setCurrPage((prev) => (prev - 1 > 1 ? prev - 1 : 1));
+              setValue('page', String(currPage - 1));
             }}
             variant="ghost"
             aria-label="previous page"
@@ -95,6 +97,7 @@ export function PdfRenderer({ url }: Readonly<PdfRendererProps>) {
             disabled={numPages === undefined || currPage === numPages}
             onClick={() => {
               setCurrPage((prev) => (prev + 1 > numPages! ? numPages! : prev + 1));
+              setValue('page', String(currPage + 1));
             }}
             variant="ghost"
             aria-label="next page"
@@ -124,6 +127,8 @@ export function PdfRenderer({ url }: Readonly<PdfRendererProps>) {
           >
             <Icons.rotateCw className="h-4 w-4" />
           </Button>
+
+          <PdfFullscreen fileUrl={url} />
         </div>
       </div>
       <div className="flex-1 w-full max-h-screen">
