@@ -37,6 +37,7 @@ export function PdfRenderer({ url }: Readonly<PdfRendererProps>) {
   const [numPages, setNumPages] = React.useState<number>();
   const [currPage, setCurrPage] = React.useState<number>(1);
   const [scale, setScale] = React.useState<number>(1);
+  const [rotation, setRotation] = React.useState<number>(0);
 
   const CustomPageValidator = z.object({
     page: z.string().refine((num) => Number(num) > 0 && Number(num) <= numPages!),
@@ -105,7 +106,7 @@ export function PdfRenderer({ url }: Readonly<PdfRendererProps>) {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button aria-label="zoom" variant="ghost">
-                <Icons.search className="h-4 w-4" />
+                <Icons.search className="h-4 w-4 mr-1" />
                 {scale * 100}%<Icons.chevronDown className="h-3 w-3 opacity-50" />
               </Button>
             </DropdownMenuTrigger>
@@ -116,6 +117,13 @@ export function PdfRenderer({ url }: Readonly<PdfRendererProps>) {
               <DropdownMenuItem onSelect={() => setScale(2.5)}>250%</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+          <Button
+            onClick={() => setRotation((prev) => prev + 90)}
+            variant="ghost"
+            aria-label="rotate 90 degrees"
+          >
+            <Icons.rotateCw className="h-4 w-4" />
+          </Button>
         </div>
       </div>
       <div className="flex-1 w-full max-h-screen">
@@ -138,7 +146,7 @@ export function PdfRenderer({ url }: Readonly<PdfRendererProps>) {
               file={url}
               className="max-h-full"
             >
-              <Page width={width ?? 1} pageNumber={currPage} scale={scale} />
+              <Page width={width ?? 1} pageNumber={currPage} scale={scale} rotate={rotation} />
             </Document>
           </div>
         </SimpleBar>
