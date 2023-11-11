@@ -11,7 +11,7 @@ interface PageProps {
   };
 }
 
-export default async function Page({ params }: PageProps) {
+export default async function Page({ params }: Readonly<PageProps>) {
   const { fileId } = params;
   const { getUser } = getKindeServerSession();
   const user = getUser();

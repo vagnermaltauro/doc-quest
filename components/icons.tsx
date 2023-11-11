@@ -8,6 +8,7 @@ import {
   Loader2,
   MessageSquare,
   Plus,
+  RotateCw,
   Search,
   Trash,
 } from 'lucide-react';
@@ -22,6 +23,7 @@ export const Icons = {
   loader2: Loader2,
   messageSquare: MessageSquare,
   plus: Plus,
+  rotateCw: RotateCw,
   search: Search,
   trash: Trash,
 };
