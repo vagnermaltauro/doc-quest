@@ -1,6 +1,8 @@
 import {
   ArrowRight,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   ChevronUp,
   Cloud,
   Expand,
@@ -18,6 +20,8 @@ import {
 export const Icons = {
   arrowRight: ArrowRight,
   chevronDown: ChevronDown,
+  chevronLeft: ChevronLeft,
+  chevronRight: ChevronRight,
   chevronUp: ChevronUp,
   cloud: Cloud,
   expand: Expand,
