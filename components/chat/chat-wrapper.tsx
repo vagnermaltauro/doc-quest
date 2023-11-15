@@ -1,5 +1,8 @@
 'use client';
 
+import Link from 'next/link';
+
+import { buttonVariants } from '@/components/ui/button';
 import { ChatInput } from '@/components/chat/chat-input';
 import { Messages } from '@/components/chat/messages';
 import { Icons } from '@/components/icons';
@@ -58,6 +61,16 @@ export function ChatWrapper({ fileId }: ChatWrapperProps) {
             <p className="text-zinc-500 text-sm">
               Your <span className="font-medium">Free</span> plan supports up to 5 pages per PDF
             </p>
+            <Link
+              href="/dashboard"
+              className={buttonVariants({
+                variant: 'secondary',
+                className: 'mt-4',
+              })}
+            >
+              <Icons.chevronLeft className="h-3 w-3 mr-1.5" />
+              Back
+            </Link>
           </div>
         </div>
         <ChatInput isDisabled />
