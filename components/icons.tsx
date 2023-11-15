@@ -13,6 +13,7 @@ import {
   Plus,
   RotateCw,
   Search,
+  Send,
   Trash,
   XCircle,
 } from 'lucide-react';
@@ -32,6 +33,7 @@ export const Icons = {
   plus: Plus,
   rotateCw: RotateCw,
   search: Search,
+  send: Send,
   trash: Trash,
   xCircle: XCircle,
 };
