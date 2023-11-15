@@ -12,7 +12,6 @@ export const appRouter = router({
 
     if (!user.id || !user.email) throw new TRPCError({ code: 'UNAUTHORIZED' });
 
-    // check if the user is in the database
     const dbUser = await db.user.findFirst({
       where: {
         id: user.id,
@@ -20,7 +19,6 @@ export const appRouter = router({
     });
 
     if (!dbUser) {
-      // create user in db
       await db.user.create({
         data: {
           id: user.id,
@@ -40,6 +38,20 @@ export const appRouter = router({
       },
     });
   }),
+  getFileUploadStatus: privateProcedure
+    .input(z.object({ fileId: z.string() }))
+    .mutation(async ({ input, ctx }) => {
+      const file = await db.file.findFirst({
+        where: {
+          id: input.fileId,
+          userId: ctx.userId,
+        },
+      });
+
+      if (!file) return { status: 'PENDING' as const };
+
+      return { status: file.uploadStatus };
+    }),
   getFile: privateProcedure
     .input(z.object({ key: z.string() }))
     .mutation(async ({ ctx, input }) => {
