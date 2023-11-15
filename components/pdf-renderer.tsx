@@ -39,6 +39,8 @@ export function PdfRenderer({ url }: Readonly<PdfRendererProps>) {
   const [currPage, setCurrPage] = React.useState<number>(1);
   const [scale, setScale] = React.useState<number>(1);
   const [rotation, setRotation] = React.useState<number>(0);
+  const [renderedScale, setRenderedScale] = React.useState<number | null>(null);
+  const isLoading = renderedScale !== scale;
 
   const CustomPageValidator = z.object({
     page: z.string().refine((num) => Number(num) > 0 && Number(num) <= numPages!),
@@ -151,7 +153,29 @@ export function PdfRenderer({ url }: Readonly<PdfRendererProps>) {
               file={url}
               className="max-h-full"
             >
-              <Page width={width ?? 1} pageNumber={currPage} scale={scale} rotate={rotation} />
+              {isLoading && renderedScale ? (
+                <Page
+                  width={width ?? 1}
+                  pageNumber={currPage}
+                  scale={scale}
+                  rotate={rotation}
+                  key={'@' + renderedScale}
+                />
+              ) : null}
+              <Page
+                className={cn(isLoading ? 'hidden' : '')}
+                width={width ?? 1}
+                pageNumber={currPage}
+                scale={scale}
+                rotate={rotation}
+                key={'@' + scale}
+                loading={
+                  <div className="flex justify-center">
+                    <Icons.loader2 className="my-24 h-6 w-6 animate-spin" />
+                  </div>
+                }
+                onRenderSuccess={() => setRenderedScale(scale)}
+              />
             </Document>
           </div>
         </SimpleBar>
