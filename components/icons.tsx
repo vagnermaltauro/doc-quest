@@ -1,6 +1,8 @@
 import {
   ArrowRight,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   ChevronUp,
   Cloud,
   Expand,
@@ -11,12 +13,16 @@ import {
   Plus,
   RotateCw,
   Search,
+  Send,
   Trash,
+  XCircle,
 } from 'lucide-react';
 
 export const Icons = {
   arrowRight: ArrowRight,
   chevronDown: ChevronDown,
+  chevronLeft: ChevronLeft,
+  chevronRight: ChevronRight,
   chevronUp: ChevronUp,
   cloud: Cloud,
   expand: Expand,
@@ -27,5 +33,7 @@ export const Icons = {
   plus: Plus,
   rotateCw: RotateCw,
   search: Search,
+  send: Send,
   trash: Trash,
+  xCircle: XCircle,
 };
