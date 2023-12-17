@@ -3,6 +3,7 @@
 import Link from 'next/link';
 
 import { buttonVariants } from '@/components/ui/button';
+import { ChatContextProvider } from '@/components/chat/chat-context';
 import { ChatInput } from '@/components/chat/chat-input';
 import { Messages } from '@/components/chat/messages';
 import { Icons } from '@/components/icons';
@@ -78,11 +79,13 @@ export function ChatWrapper({ fileId }: ChatWrapperProps) {
     );
 
   return (
-    <div className="relative min-h-full bg-zinc-50 flex divide-y divide-zinc-200 flex-col justify-between gap-2">
-      <div className="flex-1 justify-between flex flex-col mb-28">
-        <Messages />
+    <ChatContextProvider fileId={fileId}>
+      <div className="relative min-h-full bg-zinc-50 flex divide-y divide-zinc-200 flex-col justify-between gap-2">
+        <div className="flex-1 justify-between flex flex-col mb-28">
+          <Messages />
+        </div>
+        <ChatInput />
       </div>
-      <ChatInput />
-    </div>
+    </ChatContextProvider>
   );
 }
