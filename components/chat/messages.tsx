@@ -1,6 +1,10 @@
+import * as React from 'react';
+import { useContext } from 'react';
+import { useIntersection } from '@mantine/hooks';
 import Skeleton from 'react-loading-skeleton';
 
 import { INFINIT_QUERY_LIMIT } from '@/config/infinite-query';
+import { ChatContext } from '@/components/chat/chat-context';
 import { Message } from '@/components/chat/message';
 import { Icons } from '@/components/icons';
 import { trpc } from '@/app/_trpc/client';
@@ -10,6 +14,7 @@ interface MessagesProps {
 }
 
 export function Messages({ fileId }: MessagesProps) {
+  const { isLoading: isAiThinking } = useContext(ChatContext);
   const { data, isLoading, fetchNextPage } = trpc.getFileMessages.useInfiniteQuery(
     {
       fileId,
@@ -31,7 +36,9 @@ export function Messages({ fileId }: MessagesProps) {
       </span>
     ),
   };
-  const combinedMessages = [...(true ? [loadingMessage] : []), ...(messages ?? [])];
+  const combinedMessages = [...(isAiThinking ? [loadingMessage] : []), ...(messages ?? [])];
+
+  const lastMessageRef = React.useRef<HTMLDivElement>(null);
 
   return (
     <div className="flex max-h-[calc(100vh-3.5rem-7rem)] border-zinc-200 flex-1 flex-col-reverse gap-4 p-3 overflow-y-auto scrollbar-thumb-black scrollbar-thumb-rounded scrollbar-track-black-lighter scrollbar-w-2 scrolling-touch">
@@ -43,6 +50,7 @@ export function Messages({ fileId }: MessagesProps) {
           if (index === combinedMessages.length - 1) {
             return (
               <Message
+                ref={lastMessageRef}
                 key={message.id}
                 isNextMessageSamePerson={isNextMessageSamePerson}
                 message={message}
