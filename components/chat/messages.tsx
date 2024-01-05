@@ -37,8 +37,17 @@ export function Messages({ fileId }: MessagesProps) {
     ),
   };
   const combinedMessages = [...(isAiThinking ? [loadingMessage] : []), ...(messages ?? [])];
-
   const lastMessageRef = React.useRef<HTMLDivElement>(null);
+  const { ref, entry } = useIntersection({
+    root: lastMessageRef.current,
+    threshold: 1,
+  });
+
+  React.useEffect(() => {
+    if (entry?.isIntersecting) {
+      fetchNextPage();
+    }
+  }, [entry, fetchNextPage]);
 
   return (
     <div className="flex max-h-[calc(100vh-3.5rem-7rem)] border-zinc-200 flex-1 flex-col-reverse gap-4 p-3 overflow-y-auto scrollbar-thumb-black scrollbar-thumb-rounded scrollbar-track-black-lighter scrollbar-w-2 scrolling-touch">
@@ -50,7 +59,7 @@ export function Messages({ fileId }: MessagesProps) {
           if (index === combinedMessages.length - 1) {
             return (
               <Message
-                ref={lastMessageRef}
+                ref={ref}
                 key={message.id}
                 isNextMessageSamePerson={isNextMessageSamePerson}
                 message={message}
