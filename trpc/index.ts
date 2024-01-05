@@ -4,7 +4,6 @@ import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 
 import { INFINIT_QUERY_LIMIT } from '@/config/infinite-query';
-import { Messages } from '@/components/chat/messages';
 
 import { privateProcedure, publicProcedure, router } from './trpc';
 
