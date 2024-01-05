@@ -100,7 +100,7 @@ export const appRouter = router({
       }
 
       return {
-        Messages,
+        messages,
         nextCursor,
       };
     }),
