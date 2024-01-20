@@ -1,10 +1,13 @@
+import Link from 'next/link';
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
 
 import { PLANS } from '@/config/stripe';
 import { cn } from '@/lib/utils';
+import { buttonVariants } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Icons } from '@/components/icons';
 import { MaxWidthWrapper } from '@/components/max-width-wrapper';
+import { UpgradeButton } from '@/components/upgrade-button';
 
 import { pricingItems } from './_pricing-items';
 
@@ -59,7 +62,7 @@ export default function PricingPage() {
                     </div>
                   </div>
                   <ul className="my-10 space-y-5 px-8">
-                    {features.map(({ text, footnote, negative }) => {
+                    {features.map(({ text, footnote, negative }) => (
                       <li key={text} className="flex space-x-5">
                         <div className="flex-shrink-0">
                           {negative ? (
@@ -68,9 +71,45 @@ export default function PricingPage() {
                             <Icons.check className="h-6 w-6 text-green-500" />
                           )}
                         </div>
-                      </li>;
-                    })}
+                        {footnote ? (
+                          <div className="flex items-center space-x-1">
+                            <p className={cn('text-gray-400', { 'text-gray-600': negative })}>
+                              {text}
+                            </p>
+                            <Tooltip delayDuration={300}>
+                              <TooltipTrigger className="cursor-default ml-1.5">
+                                <Icons.helpCircle className="h-4 w-4 text-zinc-500" />
+                              </TooltipTrigger>
+                              <TooltipContent className="w-80 p-2">{footnote}</TooltipContent>
+                            </Tooltip>
+                          </div>
+                        ) : (
+                          <p className={cn('text-gray-400', { 'text-gray-600': negative })}>
+                            {text}
+                          </p>
+                        )}
+                      </li>
+                    ))}
                   </ul>
+                  <div className="border-t border-gray-200" />
+                  <div className="p-5">
+                    {plan === 'Free' ? (
+                      <Link
+                        href={user ? '/dashboard' : '/sign-in'}
+                        className={buttonVariants({ className: 'w-full', variant: 'secondary' })}
+                      >
+                        {user ? 'Upgrade Now' : 'Sign Up'}
+                        <Icons.arrowRight className="h-5 w-5 ml-1.5" />
+                      </Link>
+                    ) : user ? (
+                      <UpgradeButton />
+                    ) : (
+                      <Link href="/sign-in" className={buttonVariants({ className: 'w-full' })}>
+                        {user ? 'Upgrade Now' : 'Sign Up'}
+                        <Icons.arrowRight className="h-5 w-5 ml-1.5" />
+                      </Link>
+                    )}
+                  </div>
                 </div>
               );
             })}
