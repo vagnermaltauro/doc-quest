@@ -11,7 +11,7 @@ import { UpgradeButton } from '@/components/upgrade-button';
 
 import { pricingItems } from './_pricing-items';
 
-export default function PricingPage() {
+export default function Page() {
   const { getUser } = getKindeServerSession();
   const user = getUser();
 
