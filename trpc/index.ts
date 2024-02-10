@@ -168,9 +168,9 @@ export const appRouter = router({
 
     const subscriptionPlan = await getUserSubscriptionPlan();
 
-    if (subscriptionPlan.isSubscribed && dbUser.stripeCostumerId) {
+    if (subscriptionPlan.isSubscribed && dbUser.stripeCustumerId) {
       const stripeSession = await stripe.billingPortal.sessions.create({
-        customer: dbUser.stripeCostumerId,
+        customer: dbUser.stripeCustumerId,
         return_url: billingUrl,
       });
 
