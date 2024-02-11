@@ -5,6 +5,7 @@ import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
 import { PineconeStore } from 'langchain/vectorstores/pinecone';
 import { createUploadthing, type FileRouter } from 'uploadthing/next';
 
+import { PLANS } from '@/config/stripe';
 import { getPineconeClient } from '@/lib/pinecone';
 
 const f = createUploadthing();
@@ -38,6 +39,23 @@ export const ourFileRouter = {
         const loader = new PDFLoader(blob);
         const pageLevelDocs = await loader.load();
         const pagesAmt = pageLevelDocs.length;
+
+        const { subscriptionPlan } = metadata;
+        const { isSubscribed } = subscriptionPlan;
+
+        const isProExceeded = pagesAmt > PLANS.find((plan) => plan.name === 'Pro')!.pagesPerPdf;
+        const isFreeExceeded = pagesAmt > PLANS.find((plan) => plan.name === 'Free')!.pagesPerPdf;
+
+        if ((isSubscribed && isProExceeded) || (!isSubscribed && isFreeExceeded)) {
+          await db.file.update({
+            data: {
+              uploadStatus: 'FAILED',
+            },
+            where: {
+              id: createdFile.id,
+            },
+          });
+        }
 
         const pinecone = await getPineconeClient();
         const pineconeIndex = pinecone.Index('doc-quest');
