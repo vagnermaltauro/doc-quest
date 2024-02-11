@@ -138,9 +138,7 @@ Doc-Quest is a Modern Fullstack SaaS-Platform
 
 ## ✅ Prerequisites
 
-- Prerequisite 1
-
-- Prerequisite 2
+- Clone .env.example
 
 ## 🚀 Run Locally
 1.Clone the doc-quest repository:
