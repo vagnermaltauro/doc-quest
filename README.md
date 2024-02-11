@@ -1,19 +1,4 @@
 
-<p align="center">
-<a href=https://github.com/vagnermaltauro/doc-quest target="_blank">
-<img src='/placeholder.jpg' width="100%" alt="Banner" />
-</a>
-</p>
-
-
-
-<p align="center">
-<img src="https://img.shields.io/github/languages/top/vagnermaltauro/doc-quest" alt="GitHub top language" />
-<img src="https://img.shields.io/github/languages/code-size/vagnermaltauro/doc-quest" alt="GitHub code size in bytes" />
-<img src="https://img.shields.io/github/stars/vagnermaltauro/doc-quest" alt="GitHub stars" />
-<img src="https://img.shields.io/github/deployments/vagnermaltauro/doc-quest/production" alt="GitHub deployment" />
-</p>
-
 ## 📌 Overview
 
 Doc-Quest is a Modern Fullstack SaaS-Platform
