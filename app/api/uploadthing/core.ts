@@ -1,4 +1,4 @@
-import { db } from '@/db';
+import db from '@/db';
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
 import { PDFLoader } from 'langchain/document_loaders/fs/pdf';
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
@@ -20,7 +20,7 @@ export const ourFileRouter = {
 
       return { userId: user.id };
     })
-    .onUploadComplete(async ({ metadata, file }) => {
+    .onUploadComplete(async ({ metadata, file }: any) => {
       const createdFile = await db.file.create({
         data: {
           key: file.key,

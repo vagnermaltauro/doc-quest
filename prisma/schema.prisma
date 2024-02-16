@@ -2,13 +2,13 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
-  provider     = "mysql"
-  url          = env("DATABASE_URL")
-  relationMode = "prisma"
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 model User {
@@ -24,18 +24,11 @@ model User {
   stripeCurrentPeriodEnd DateTime? @map(name: "stripe_current_period_end")
 }
 
-enum UploadStatus {
-  PENDING
-  PROCESSING
-  FAILED
-  SUCCESS
-}
-
 model File {
   id   String @id @default(cuid())
   name String
 
-  uploadStatus UploadStatus @default(PENDING)
+  uploadStatus String @default("PENDING")
 
   url      String
   key      String
@@ -49,7 +42,7 @@ model File {
 
 model Message {
   id   String @id @default(cuid())
-  text String @db.Text()
+  text String
 
   isUserMessage Boolean
 
@@ -60,3 +53,4 @@ model Message {
   File      File?    @relation(fields: [fileId], references: [id])
   fileId    String?
 }
+

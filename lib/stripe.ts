@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { db } from '@/db';
+import db from '@/db';
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
 import Stripe from 'stripe';
 
