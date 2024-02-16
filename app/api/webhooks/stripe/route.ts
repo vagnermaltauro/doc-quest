@@ -1,5 +1,5 @@
 import { headers } from 'next/headers';
-import { db } from '@/db';
+import db from '@/db';
 import type Stripe from 'stripe';
 
 import { stripe } from '@/lib/stripe';

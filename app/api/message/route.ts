@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import { db } from '@/db';
+import db from '@/db';
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
 import { OpenAIStream, StreamingTextResponse } from 'ai';
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
