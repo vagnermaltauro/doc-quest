@@ -1,7 +1,8 @@
-
 ## 📌 Overview
 
 Doc-Quest is a Modern Fullstack SaaS-Platform
+
+[Screencast-2024-02-16-17_04_44.webm](https://github.com/vagnermaltauro/doc-quest/assets/81274178/2982c2cd-cb26-4f27-9800-6aa2a6644625)
 
 ## 🔍 Table of Contents
 
